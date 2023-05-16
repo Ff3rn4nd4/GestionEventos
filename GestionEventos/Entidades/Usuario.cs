@@ -10,6 +10,8 @@
 
         //Relacion uno a muchos
         public List <Comentario> comentarios { get; set; }
+        //Relacion muchos a muchos
+        public List<UsuarioHistorialAsistencia> HistorialAsistencia { get; set; }
 
     }
 }

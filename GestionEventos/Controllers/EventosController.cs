@@ -34,15 +34,28 @@ namespace GestionEventos.Controllers
 
         //CRUD
 
-        [HttpGet]
-        public async Task<ActionResult<List<Evento>>> Get()
+        [HttpGet("Listado completo")]
+        public async Task<ActionResult<List<Evento>>> GetAll()
         {
             return await dbContext.Eventos.ToListAsync();
+        }
+
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<Evento>> GetById(int id)
+        {
+            return await dbContext.Eventos.FirstOrDefaultAsync(x => x.Id == id);
         }
 
         [HttpPost]
         public async Task<ActionResult> Post(Evento evento)
         {
+            var existeEvento = await dbContext.Eventos.AnyAsync(x => x.Id ==  evento.Id);
+
+            if (!existeEvento)
+            {
+                return BadRequest($"No existe algun evento con esa id: {evento.Id} ");
+            }
+
             dbContext.Add(evento);
             await dbContext.SaveChangesAsync();
             return Ok();
@@ -51,6 +64,13 @@ namespace GestionEventos.Controllers
         [HttpPut("{id:int}")]
         public async Task<ActionResult> Put(Evento evento, int id)
         {
+            var exist = await dbContext.Eventos.AnyAsync( x => x.Id == id);
+            
+            if (!exist)
+            {
+                return NotFound("Este evento no existe");
+            }
+
             if (evento.Id != id)
             {
                 return BadRequest("El id de este evento no existe en la url");
@@ -67,13 +87,15 @@ namespace GestionEventos.Controllers
             var exist = await dbContext.Eventos.AnyAsync(x => x.Id == id);
             if (!exist)
             {
-                return NotFound();
+                return NotFound("El recurso no fue encontrado");
             }
 
-            dbContext.Remove(new Evento()
+            dbContext.Remove(new Evento { Id = id });
+
+            /*dbContext.Remove(new Evento()
             {
                 Id = id
-            });
+            });*/
 
             await dbContext.SaveChangesAsync();
             return Ok();

@@ -12,16 +12,13 @@
         public  string Ubicacion { get; set; }
         public int Capacidad { get; set; }
 
+        //Relacion muchos a muchos
+        public List<UsuarioHistorialAsistencia> usuarioHistorialAsistencias { get; set; }
+
         //Relaciones Uno a Muchos
         public List<RegistroAsistencia> registroAsistencias { get; set; }
         public List<Comentario> comentarios { get; set; }
         public List<Promocion> promociones { get; set; }
-
-        //Clase hija para historial de asistencia
-
-        // relacion de datos uno a muchos
-        public int HistorialAsistenciaId { get; set; }
-        public HistorialAsistencia HistorialAsistencia  { get; set; }
 
     }
 }

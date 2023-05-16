@@ -3,10 +3,10 @@
     //Clase Padre
     public class HistorialAsistencia
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
         public string Fecha { get; set; }
 
-        //Relacion uno a muchos 
-        public List<Evento> eventos { get; set; }
+        //Relacion muchos a muchos 
+        public List<UsuarioHistorialAsistencia> Usuario { get; set; }
     }
 }
