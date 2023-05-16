@@ -1,6 +1,6 @@
 ﻿namespace GestionEventos.Controllers
 {
-    public class AsistenciasController
+    public class RegistroAsistenciaController
     {
     }
 }
