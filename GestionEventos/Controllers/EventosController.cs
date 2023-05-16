@@ -48,6 +48,37 @@ namespace GestionEventos.Controllers
             return Ok();
         }
 
+        [HttpPut("{id:int}")]
+        public async Task<ActionResult> Put(Evento evento, int id)
+        {
+            if (evento.Id != id)
+            {
+                return BadRequest("El id de este evento no existe en la url");
+            }
+
+            dbContext.Update(evento);
+            await dbContext.SaveChangesAsync();
+            return Ok();
+        }
+
+        [HttpDelete("{id:int}")]
+        public async Task<ActionResult> Delete(int id)
+        {
+            var exist = await dbContext.Eventos.AnyAsync(x => x.Id == id);
+            if (!exist)
+            {
+                return NotFound();
+            }
+
+            dbContext.Remove(new Evento()
+            {
+                Id = id
+            });
+
+            await dbContext.SaveChangesAsync();
+            return Ok();
+        }
+
         
     }
 }
