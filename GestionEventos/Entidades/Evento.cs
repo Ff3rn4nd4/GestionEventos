@@ -12,13 +12,13 @@
         public  string Ubicacion { get; set; }
         public int Capacidad { get; set; }
 
-        //Relacion muchos a muchos
-        public List<UsuarioHistorialAsistencia> usuarioHistorialAsistencias { get; set; }
-
         //Relaciones Uno a Muchos
-        public List<RegistroAsistencia> registroAsistencias { get; set; }
-        public List<Comentario> comentarios { get; set; }
-        public List<Promocion> promociones { get; set; }
+        public ICollection<RegistroAsistencia> RegistroAsistencias { get; set; }
+        public List<Comentario> Comentarios { get; set; }
+        public List<Promocion> Promociones { get; set; }
+
+        //Relacion muchos a muchos
+        public List<UsuarioHistorialAsistencia> UsuarioHistorialAsistencias { get; set; }
 
     }
 }

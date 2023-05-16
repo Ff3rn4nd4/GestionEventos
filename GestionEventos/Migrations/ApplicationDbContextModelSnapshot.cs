@@ -134,7 +134,7 @@ namespace GestionEventos.Migrations
 
                     b.HasIndex("UsuarioId");
 
-                    b.ToTable("RegistroAsistencia");
+                    b.ToTable("RegistroAsistencias");
                 });
 
             modelBuilder.Entity("GestionEventos.Entidades.Usuario", b =>
@@ -157,6 +157,25 @@ namespace GestionEventos.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Usuarios");
+                });
+
+            modelBuilder.Entity("GestionEventos.Entidades.UsuarioEventoFavorito", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("EventoId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UsuarioId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UsuarioEventoFavoritos");
                 });
 
             modelBuilder.Entity("GestionEventos.Entidades.UsuarioHistorialAsistencia", b =>
@@ -182,13 +201,13 @@ namespace GestionEventos.Migrations
             modelBuilder.Entity("GestionEventos.Entidades.Comentario", b =>
                 {
                     b.HasOne("GestionEventos.Entidades.Evento", "Evento")
-                        .WithMany("comentarios")
+                        .WithMany("Comentarios")
                         .HasForeignKey("EventoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("GestionEventos.Entidades.Usuario", "Usuario")
-                        .WithMany("comentarios")
+                        .WithMany("Comentarios")
                         .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -201,7 +220,7 @@ namespace GestionEventos.Migrations
             modelBuilder.Entity("GestionEventos.Entidades.Promocion", b =>
                 {
                     b.HasOne("GestionEventos.Entidades.Evento", "Evento")
-                        .WithMany("promociones")
+                        .WithMany("Promociones")
                         .HasForeignKey("EventoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -212,13 +231,13 @@ namespace GestionEventos.Migrations
             modelBuilder.Entity("GestionEventos.Entidades.RegistroAsistencia", b =>
                 {
                     b.HasOne("GestionEventos.Entidades.Evento", "Evento")
-                        .WithMany("registroAsistencias")
+                        .WithMany("RegistroAsistencias")
                         .HasForeignKey("EventoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("GestionEventos.Entidades.Usuario", "Usuario")
-                        .WithMany()
+                        .WithMany("RegistroAsistencias")
                         .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -231,7 +250,7 @@ namespace GestionEventos.Migrations
             modelBuilder.Entity("GestionEventos.Entidades.UsuarioHistorialAsistencia", b =>
                 {
                     b.HasOne("GestionEventos.Entidades.Evento", null)
-                        .WithMany("usuarioHistorialAsistencias")
+                        .WithMany("UsuarioHistorialAsistencias")
                         .HasForeignKey("EventoId");
 
                     b.HasOne("GestionEventos.Entidades.HistorialAsistencia", "HistorialAsistencia")
@@ -253,13 +272,13 @@ namespace GestionEventos.Migrations
 
             modelBuilder.Entity("GestionEventos.Entidades.Evento", b =>
                 {
-                    b.Navigation("comentarios");
+                    b.Navigation("Comentarios");
 
-                    b.Navigation("promociones");
+                    b.Navigation("Promociones");
 
-                    b.Navigation("registroAsistencias");
+                    b.Navigation("RegistroAsistencias");
 
-                    b.Navigation("usuarioHistorialAsistencias");
+                    b.Navigation("UsuarioHistorialAsistencias");
                 });
 
             modelBuilder.Entity("GestionEventos.Entidades.HistorialAsistencia", b =>
@@ -269,9 +288,11 @@ namespace GestionEventos.Migrations
 
             modelBuilder.Entity("GestionEventos.Entidades.Usuario", b =>
                 {
+                    b.Navigation("Comentarios");
+
                     b.Navigation("HistorialAsistencia");
 
-                    b.Navigation("comentarios");
+                    b.Navigation("RegistroAsistencias");
                 });
 #pragma warning restore 612, 618
         }

@@ -9,7 +9,8 @@
         public string Contrasenia { get; set; }
 
         //Relacion uno a muchos
-        public List <Comentario> comentarios { get; set; }
+        public List <Comentario> Comentarios { get; set; }
+        public ICollection<RegistroAsistencia> RegistroAsistencias { get; set; }
         //Relacion muchos a muchos
         public List<UsuarioHistorialAsistencia> HistorialAsistencia { get; set; }
 

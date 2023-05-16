@@ -14,8 +14,8 @@ namespace GestionEventos
         //bases de datos
         public DbSet<Evento> Eventos { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
-        public DbSet<RegistroAsistencia> registroAsistencias { get; set; }
-        //public DbSet<UsuarioEventoFavorito> UsuarioEventoFavoritos { get; set; }
+        public DbSet<RegistroAsistencia> RegistroAsistencias { get; set; }
+        public DbSet<UsuarioEventoFavorito> UsuarioEventoFavoritos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

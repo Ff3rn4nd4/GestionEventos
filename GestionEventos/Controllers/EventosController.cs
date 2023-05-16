@@ -46,6 +46,13 @@ namespace GestionEventos.Controllers
             return await dbContext.Eventos.FirstOrDefaultAsync(x => x.Id == id);
         }
 
+        [HttpGet]
+        public async Task<ActionResult<List<Evento>>> Get()
+        {
+            return await dbContext.Eventos.Include(x => x.Comentarios).ToListAsync();
+        }
+
+
         [HttpPost]
         public async Task<ActionResult> Post(Evento evento)
         {
