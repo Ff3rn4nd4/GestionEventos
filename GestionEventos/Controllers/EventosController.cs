@@ -16,7 +16,7 @@ namespace GestionEventos.Controllers
 
         public EventosController(ApplicationDbContext context) 
         {
-            this.dbContext = context;
+            dbContext = context;
         }
         //metodo get con Datos Dummy
 
@@ -46,7 +46,7 @@ namespace GestionEventos.Controllers
             return await dbContext.Eventos.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        [HttpGet]
+        [HttpGet("Listado con comentario")]
         public async Task<ActionResult<List<Evento>>> Get()
         {
             return await dbContext.Eventos.Include(x => x.Comentarios).ToListAsync();

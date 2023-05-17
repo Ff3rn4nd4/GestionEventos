@@ -13,7 +13,7 @@
         public int Capacidad { get; set; }
 
         //Relaciones Uno a Muchos
-        public ICollection<RegistroAsistencia> RegistroAsistencias { get; set; }
+        //public List<RegistroAsistencia> RegistroAsistencias { get; set; }
         public List<Comentario> Comentarios { get; set; }
         public List<Promocion> Promociones { get; set; }
 
