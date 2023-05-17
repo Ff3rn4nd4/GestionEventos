@@ -18,9 +18,10 @@ namespace GestionEventos.Controllers
         {
             dbContext = context;
         }
-        //metodo get con Datos Dummy
+        
+        /*metodo get con Datos Dummy
 
-        /* Datos dummy 
+        [HttpGet]
          public ActionResult <List<Evento>> Get() 
          {
              return new List<Evento>()
@@ -43,26 +44,16 @@ namespace GestionEventos.Controllers
         [HttpGet("{id:int}")]
         public async Task<ActionResult<Evento>> GetById(int id)
         {
+            var evento = await dbContext.Eventos
+            .Include(e => e.Comentarios)
+            .FirstOrDefaultAsync(e => e.Id == id);
+
             return await dbContext.Eventos.FirstOrDefaultAsync(x => x.Id == id);
         }
-
-        [HttpGet("Listado con comentario")]
-        public async Task<ActionResult<List<Evento>>> Get()
-        {
-            return await dbContext.Eventos.Include(x => x.Comentarios).ToListAsync();
-        }
-
 
         [HttpPost]
         public async Task<ActionResult> Post(Evento evento)
         {
-            var existeEvento = await dbContext.Eventos.AnyAsync(x => x.Id ==  evento.Id);
-
-            if (!existeEvento)
-            {
-                return BadRequest($"No existe algun evento con esa id: {evento.Id} ");
-            }
-
             dbContext.Add(evento);
             await dbContext.SaveChangesAsync();
             return Ok();

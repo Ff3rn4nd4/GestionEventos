@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using System.Security.Cryptography.Xml;
 using System.Text.Json.Serialization;
 
 namespace GestionEventos

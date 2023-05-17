@@ -3,7 +3,6 @@
     //Clase Padre
     public class Evento
     {
-        
         public int Id { get; set; }
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
@@ -12,13 +11,19 @@
         public  string Ubicacion { get; set; }
         public int Capacidad { get; set; }
 
-        //Relaciones Uno a Muchos
-        //public List<RegistroAsistencia> RegistroAsistencias { get; set; }
-        public List<Comentario> Comentarios { get; set; }
-        public List<Promocion> Promociones { get; set; }
+        //Relacion directa/tabla intermedia implicita para tipo Muchos a Muchos
+        public class Favorito
+        {
+            public int Id { get; set; }
+            public int EventoId { get; set; }
+            public Evento Evento { get; set; }
+        }
 
-        //Relacion muchos a muchos
-        public List<UsuarioHistorialAsistencia> UsuarioHistorialAsistencias { get; set; }
+        //Relaciones Uno a Muchos
+        public List<Comentario> Comentarios { get; set; }
+        //public List<Promocion> Promociones { get; set; }
+        //public List<RegistroAsistencia> RegistroAsistencias { get; set; }
+
 
     }
 }

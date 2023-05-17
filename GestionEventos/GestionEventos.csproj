@@ -16,8 +16,4 @@
     <PackageReference Include="zipkin4net" Version="1.5.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Config\" />
-  </ItemGroup>
-
 </Project>

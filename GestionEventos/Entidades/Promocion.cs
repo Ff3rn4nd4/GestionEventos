@@ -12,8 +12,8 @@ namespace GestionEventos.Entidades
         public int Descuento { get; set; }
 
         // relacion de datos uno a muchos
-        public int EventoId { get; set; }
-        public Evento Evento { get; set; }
+        //public int EventoId { get; set; }
+        //public Evento Evento { get; set; }
 
     }
 }

@@ -13,18 +13,15 @@ namespace GestionEventos
 
         //bases de datos
         public DbSet<Evento> Eventos { get; set; }
-        public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<Comentario> Comentarios { get; set; }
         //public DbSet<RegistroAsistencia> RegistroAsistencias { get; set; }
         //public DbSet<UsuarioEventoFavorito> UsuarioEventoFavoritos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<RegistroAsistencia>()
-           .HasKey(x => new { x.UsuarioId, x.EventoId });
-
-            modelBuilder.Entity<UsuarioHistorialAsistencia>()
-               .HasKey(x => new { x.HistorialAsistenciaId, x.UsuarioId });
+            modelBuilder.Entity<Comentario>().Ignore(c => c.Evento);
         }
+
 
     }
 }
