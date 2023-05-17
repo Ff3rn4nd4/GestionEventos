@@ -14,12 +14,14 @@ namespace GestionEventos
         //bases de datos
         public DbSet<Evento> Eventos { get; set; }
         public DbSet<Comentario> Comentarios { get; set; }
+        public DbSet<Favorito> Favoritos { get; set; }
         //public DbSet<RegistroAsistencia> RegistroAsistencias { get; set; }
         //public DbSet<UsuarioEventoFavorito> UsuarioEventoFavoritos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Comentario>().Ignore(c => c.Evento);
+
         }
 
 

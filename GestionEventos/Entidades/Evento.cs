@@ -11,13 +11,7 @@
         public  string Ubicacion { get; set; }
         public int Capacidad { get; set; }
 
-        //Relacion directa/tabla intermedia implicita para tipo Muchos a Muchos
-        public class Favorito
-        {
-            public int Id { get; set; }
-            public int EventoId { get; set; }
-            public Evento Evento { get; set; }
-        }
+        //Relacion Muchos a Muchos
 
         //Relaciones Uno a Muchos
         public List<Comentario> Comentarios { get; set; }
