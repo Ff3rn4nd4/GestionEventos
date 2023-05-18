@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using GestionEventos.Filtros;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
 
@@ -15,6 +16,12 @@ namespace GestionEventos
 
         public void ConfigureServices(IServiceCollection services)
         {
+            //Para poder utilizar el filtro de excepcion
+            //Al ponerlo en nuestro startUp lo hacemos global
+            services.AddControllers(options =>
+            {
+                options.Filters.Add(typeof(FiltroExcepcion));
+            });
             //Para poder utilizar el patch y jsonpatch
             services.AddControllers().AddNewtonsoftJson();
             //Para que no se ciclen las entidades

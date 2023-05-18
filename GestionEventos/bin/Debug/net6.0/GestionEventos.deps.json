@@ -14,6 +14,7 @@
           "Microsoft.EntityFrameworkCore.Design": "8.0.0-preview.4.23259.3",
           "Microsoft.EntityFrameworkCore.SqlServer": "8.0.0-preview.4.23259.3",
           "Microsoft.EntityFrameworkCore.Tools": "8.0.0-preview.4.23259.3",
+          "Microsoft.Extensions.Logging": "8.0.0-preview.4.23259.5",
           "Swashbuckle.AspNetCore": "6.2.3",
           "zipkin4net": "1.5.0"
         },
