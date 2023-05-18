@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GestionEventos.Controllers
 {
-    //validaciones automaticas
+    //validaciones automaticas/por defecto
     [ApiController]
 
     //ruta
@@ -13,10 +13,14 @@ namespace GestionEventos.Controllers
     public class EventosController: ControllerBase
     {
         private readonly ApplicationDbContext dbContext;
+        //Implementando Log de errores
+        private readonly ILogger<EventosController> logger;
 
-        public EventosController(ApplicationDbContext context) 
+        public EventosController(ApplicationDbContext context, ILogger<EventosController> logger) 
         {
             dbContext = context;
+            //Ahora se puede aplicar a cualquier metodo del CRUD
+            this.logger = logger;
         }
         
         /*metodo get con Datos Dummy
@@ -38,6 +42,8 @@ namespace GestionEventos.Controllers
         [HttpGet("Listado completo")]
         public async Task<ActionResult<List<Evento>>> GetAll()
         {
+            //Este tipo de log solo lo muestra al programador
+            logger.LogInformation("Se obtiene la lista con todos los eventos");
             return await dbContext.Eventos.ToListAsync();
         }
 
@@ -54,9 +60,20 @@ namespace GestionEventos.Controllers
         [HttpPost]
         public async Task<ActionResult> Post(Evento evento)
         {
-            dbContext.Add(evento);
-            await dbContext.SaveChangesAsync();
-            return Ok();
+            try
+            {
+                dbContext.Add(evento);
+                await dbContext.SaveChangesAsync();
+                return Ok();
+            }
+            catch(Exception ex)
+            {
+                logger.LogError(ex,"Hubo un error al crear un nuevo evento");
+                //Aunque tambien podemos enseniarselos al usuario
+                return BadRequest("Ocurrio un error inesperado, vuelve a intentarlo xc");
+
+            }
+            
         }
 
         [HttpPut("{id:int}")]

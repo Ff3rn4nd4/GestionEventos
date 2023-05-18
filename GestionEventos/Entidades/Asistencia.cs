@@ -7,10 +7,10 @@ namespace GestionEventos.Entidades
     {
         public int Id { get; set; }
         public string Fecha { get; set; }
-
-        //Relacion uno a muchos 
+        //Validaciones Personalizadas
         [Required]
         [LimiteCapacidad(ErrorMessage = "La cantidad de asistentes excede la capacidad del evento")]
+        //Relacion uno a muchos 
         public int EventoId { get; set; }
         public Evento Evento { get; set; }
 

@@ -1,6 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
+﻿using System.ComponentModel.DataAnnotations;
 using GestionEventos.Entidades;
 
 namespace GestionEventos.ValidacionesPersonalizadas

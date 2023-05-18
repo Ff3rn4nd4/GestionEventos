@@ -42,6 +42,7 @@ namespace GestionEventos.Controllers
         }*/
 
         [HttpPost]
+        //Validaciones desde el controlador
         [LimiteCapacidad]
         public async Task<ActionResult> Post(Asistencia asistencia)
         {

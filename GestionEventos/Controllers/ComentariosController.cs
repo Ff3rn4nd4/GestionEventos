@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GestionEventos.Controllers
 {
-    //validaciones automaticas
+    //validaciones automaticas/por defecto
     [ApiController]
 
     //ruta
