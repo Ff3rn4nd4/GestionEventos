@@ -1,6 +1,7 @@
 ﻿using GestionEventos.Entidades;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using GestionEventos.ValidacionesPersonalizadas;
 
 namespace GestionEventos.Controllers
 {
@@ -32,9 +33,23 @@ namespace GestionEventos.Controllers
             return await dbContext.Asistencias.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        [HttpPost]
+        /*[HttpPost]
         public async Task<ActionResult> Post(Asistencia asistencia)
         {
+            dbContext.Add(asistencia);
+            await dbContext.SaveChangesAsync();
+            return Ok();
+        }*/
+
+        [HttpPost]
+        [LimiteCapacidad]
+        public async Task<ActionResult> Post(Asistencia asistencia)
+        {
+            var evento = await dbContext.Eventos.FindAsync(asistencia.EventoId);
+            if (evento.Asistencias.Count >= evento.Capacidad)
+            {
+                return BadRequest("La cantidad de asistentes excede la capacidad del evento");
+            }
             dbContext.Add(asistencia);
             await dbContext.SaveChangesAsync();
             return Ok();
@@ -63,13 +78,13 @@ namespace GestionEventos.Controllers
         [HttpDelete("{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var exist = await dbContext.Promociones.AnyAsync(x => x.Id == id);
+            var exist = await dbContext.Asistencias.AnyAsync(x => x.Id == id);
             if (!exist)
             {
                 return NotFound("El recurso no fue encontrado");
             }
 
-            dbContext.Remove(new Promocion { Id = id });
+            dbContext.Remove(new Asistencia { Id = id });
 
             await dbContext.SaveChangesAsync();
             return Ok();
