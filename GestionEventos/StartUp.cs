@@ -15,6 +15,9 @@ namespace GestionEventos
 
         public void ConfigureServices(IServiceCollection services)
         {
+            //Para poder utilizar el patch y jsonpatch
+            services.AddControllers().AddNewtonsoftJson();
+            //Para que no se ciclen las entidades
             services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             services.AddDbContext<ApplicationDbContext>(options =>

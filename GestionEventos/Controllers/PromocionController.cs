@@ -1,4 +1,5 @@
 ﻿using GestionEventos.Entidades;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -58,6 +59,28 @@ namespace GestionEventos.Controllers
             dbContext.Update(promocion);
             await dbContext.SaveChangesAsync();
             return Ok();
+        }
+
+        //Aplicando Patch y JsonPatch
+        //Muy parecido a put, sirve para actualizar
+        [HttpPatch("{id:int}")]
+        public async Task<ActionResult> Patch(int id, [FromBody] JsonPatchDocument<Promocion> patchDocument)
+        {
+            if (patchDocument == null)
+            {
+                return BadRequest();
+            }
+            var promocion = await dbContext.Promociones.FindAsync(id);
+
+            if (promocion == null)
+            {
+                return NotFound();
+            }
+
+            patchDocument.ApplyTo(promocion);
+            await dbContext.SaveChangesAsync();
+            return NoContent();
+
         }
 
         [HttpDelete("{id:int}")]
