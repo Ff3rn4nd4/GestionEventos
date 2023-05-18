@@ -1,4 +1,5 @@
 ﻿using GestionEventos.Filtros;
+using GestionEventos.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
@@ -16,7 +17,8 @@ namespace GestionEventos
 
         public void ConfigureServices(IServiceCollection services)
         {
-            //Para poder utilizar el filtro de excepcion
+            //Para poder escribir en el archivo que creamos
+            services.AddSingleton<IHostedService, EscribirEnArchivo>();
             //Al ponerlo en nuestro startUp lo hacemos global
             services.AddControllers(options =>
             {
@@ -47,6 +49,8 @@ namespace GestionEventos
             }
 
             app.UseHttpsRedirection();
+
+            app.UseStaticFiles();
 
             app.UseRouting();
 

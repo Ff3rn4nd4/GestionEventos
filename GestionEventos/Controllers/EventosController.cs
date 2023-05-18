@@ -1,5 +1,7 @@
 ﻿using GestionEventos.Entidades;
+using GestionEventos.Filtros;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Server.IIS.Core;
 using Microsoft.EntityFrameworkCore;
 
 namespace GestionEventos.Controllers
@@ -15,6 +17,8 @@ namespace GestionEventos.Controllers
         private readonly ApplicationDbContext dbContext;
         //Implementando Log de errores
         private readonly ILogger<EventosController> logger;
+ 
+         
 
         public EventosController(ApplicationDbContext context, ILogger<EventosController> logger) 
         {
