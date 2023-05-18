@@ -1,19 +1,17 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GestionEventos.Entidades
 {
-    //Clase Hija
     public class Promocion
     {
-        public string Id { get; set; }
-        [Required]
+        public int Id { get; set; }
         public string Codigo { get; set; }
-        [Range(100,500, ErrorMessage = "No existe este descuento")]
         public int Descuento { get; set; }
 
-        // relacion de datos uno a muchos
-        //public int EventoId { get; set; }
-        //public Evento Evento { get; set; }
+        //Relacion uno a muchos
+        public int EventoId { get; set; }
+        public Evento Evento { get; set; }
 
     }
 }

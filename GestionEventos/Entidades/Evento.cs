@@ -1,6 +1,5 @@
 ﻿namespace GestionEventos.Entidades
 {
-    //Clase Padre
     public class Evento
     {
         public int Id { get; set; }
@@ -11,13 +10,14 @@
         public  string Ubicacion { get; set; }
         public int Capacidad { get; set; }
 
-        //Relacion Muchos a Muchos
+        //Relaciones Uno a muchos 
+        public List<Promocion> Promociones { get; set; }
 
-        //Relaciones Uno a Muchos
+        /*public int AsistenciaId { get; set; }
+        public Asistencia Asistencia { get; set; }*/
+
+        //Relacion Uno a Muchos como Entidad Padre
         public List<Comentario> Comentarios { get; set; }
-        //public List<Promocion> Promociones { get; set; }
-        //public List<RegistroAsistencia> RegistroAsistencias { get; set; }
-
 
     }
 }
