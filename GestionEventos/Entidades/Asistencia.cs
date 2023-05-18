@@ -6,6 +6,9 @@
         public string Fecha { get; set; }
 
         //Relacion uno a muchos 
-        public List<Evento> Eventos { get; set; }
+
+        public int EventoId { get; set; }
+        public Evento Evento { get; set; }
+
     }
 }

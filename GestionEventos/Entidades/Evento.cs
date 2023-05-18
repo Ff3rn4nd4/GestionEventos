@@ -12,9 +12,7 @@
 
         //Relaciones Uno a muchos 
         public List<Promocion> Promociones { get; set; }
-
-        /*public int AsistenciaId { get; set; }
-        public Asistencia Asistencia { get; set; }*/
+        public List<Asistencia> Asistencias { get; set; }
 
         //Relacion Uno a Muchos como Entidad Padre
         public List<Comentario> Comentarios { get; set; }
