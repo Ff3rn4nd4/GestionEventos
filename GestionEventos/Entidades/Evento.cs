@@ -1,5 +1,4 @@
-﻿using GestionEventos.ValidacionesPersonalizadas;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace GestionEventos.Entidades
 {
