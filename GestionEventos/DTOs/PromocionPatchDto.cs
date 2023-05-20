@@ -1,6 +1,6 @@
 ﻿namespace GestionEventos.DTOs
 {
-    public class PromocionPatch
+    public class PromocionPatchDto
     {
         //Dto patch
         public int Id { get; set; }

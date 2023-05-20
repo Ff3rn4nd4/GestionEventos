@@ -1,4 +1,7 @@
-﻿using GestionEventos.Entidades;
+﻿using AutoMapper;
+using GestionEventos.DTOs;
+using GestionEventos.Entidades;
+using GestionEventos.Migrations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,10 +16,13 @@ namespace GestionEventos.Controllers
     public class ComentariosController: ControllerBase
     {
         private readonly ApplicationDbContext dbContext;
+        //Mappeo
+        private readonly IMapper mapper;
 
-        public ComentariosController(ApplicationDbContext context)
+        public ComentariosController(ApplicationDbContext context,IMapper mapper)
         {
             dbContext = context;
+            this.mapper = mapper;
         }
 
         //CRUD
@@ -33,9 +39,24 @@ namespace GestionEventos.Controllers
             return await dbContext.Comentarios.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        [HttpPost]
+        /*[HttpPost]
         public async Task<ActionResult> Post(Comentario comentario)
         {
+            dbContext.Add(comentario);
+            await dbContext.SaveChangesAsync();
+            return Ok();
+        }*/
+
+        [HttpPost("Crear comentario")]
+        public async Task<ActionResult> Post(ComentarioDto comentariodto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var comentario = mapper.Map<Comentario>(comentariodto);
+
             dbContext.Add(comentario);
             await dbContext.SaveChangesAsync();
             return Ok();

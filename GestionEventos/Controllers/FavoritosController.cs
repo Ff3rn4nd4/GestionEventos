@@ -1,4 +1,6 @@
-﻿using GestionEventos.Entidades;
+﻿using AutoMapper;
+using GestionEventos.DTOs;
+using GestionEventos.Entidades;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,10 +14,12 @@ namespace GestionEventos.Controllers
     public class FavoritosController: ControllerBase
     {
         private readonly ApplicationDbContext dbContext;
+        private readonly IMapper mapper;
 
-        public FavoritosController(ApplicationDbContext context)
+        public FavoritosController(ApplicationDbContext context, IMapper mapper)
         {
             dbContext = context;
+            this.mapper = mapper;
         }
 
         //CRUD
@@ -26,9 +30,23 @@ namespace GestionEventos.Controllers
             return await dbContext.Favoritos.ToListAsync();
         }
 
-        [HttpPost]
+        /*[HttpPost]
         public async Task<ActionResult> Post(Favorito favorito)
         {
+            dbContext.Add(favorito);
+            await dbContext.SaveChangesAsync();
+            return Ok();
+        }*/
+
+        [HttpPost("Marcar como favorito")]
+        public async Task<ActionResult> Post(FavoritoDto favoritodto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var favorito = mapper.Map<Favorito>(favoritodto);
+
             dbContext.Add(favorito);
             await dbContext.SaveChangesAsync();
             return Ok();

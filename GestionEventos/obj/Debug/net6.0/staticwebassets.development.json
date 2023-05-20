@@ -1,1 +1,1 @@
-{"ContentRoots":["C:\\Users\\DELL\\source\\repos\\GestionEventos\\GestionEventos\\wwwroot\\"],"Root":{"Children":null,"Asset":null,"Patterns":[{"ContentRootIndex":0,"Pattern":"**","Depth":0}]}}
+{"ContentRoots":["C:\\Users\\DELL\\source\\repos\\GestionEventos\\GestionEventos\\wwwroot\\"],"Root":{"Children":{"Michu.txt":{"Children":null,"Asset":{"ContentRootIndex":0,"SubPath":"Michu.txt"},"Patterns":null}},"Asset":null,"Patterns":[{"ContentRootIndex":0,"Pattern":"**","Depth":0}]}}

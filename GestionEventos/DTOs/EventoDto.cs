@@ -1,24 +1,28 @@
-﻿namespace GestionEventos.DTOs
+﻿using GestionEventos.ValidacionesPersonalizadas;
+using System.ComponentModel.DataAnnotations;
+
+namespace GestionEventos.DTOs
 {
     public class EventoDto
     {
-        //DTO de consumo, ya que solo le vamos a enviar datos al cliente
-        //Que son los que recoje a la hora de hacer un nuevo evento
-
         public int Id { get; set; }
+        //Validaciones por modelo
+        [Required]
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
         public string Fecha { get; set; }
+        //Validaciones por modelo
+        [Required]
         public string Hora { get; set; }
+        //Validaciones por modelo
+        [Required]
         public string Ubicacion { get; set; }
+        //Validaciones personalizadas
+        [Required]
         public int Capacidad { get; set; }
+        public List<ComentarioDto> ComentariosDto { get; set; }
+        public List<AsistenciaDto> AsistenciasDto { get; set; }
+        public List<PromocionDto> PromocionesDto { get; set; }
 
-        //Esta a su vez sera una Dto para cargar relaciones
-        //Ya que esta es la entidad principal por ello hay muchas otras que estan relacionadas
-        //directamente con ella
-
-        public List<AsistenciaDto> Asistencias { get; set; }
-        public List<ComentarioDto> Comentarios { get; set; }
-        public List<PromocionDto> Promociones { get; set; }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace GestionEventos.DTOs
 {
-    public class CrearEvento
+    public class CrearEventoDto
     {
         //DTO de creacion, ya que son los datos que el cliente le va a enviar al servidor
         [Required]

@@ -21,6 +21,21 @@ namespace GestionEventos.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("ComentarioPromocion", b =>
+                {
+                    b.Property<int>("ComentarioId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PromocionId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ComentarioId", "PromocionId");
+
+                    b.HasIndex("PromocionId");
+
+                    b.ToTable("ComentarioPromocion", (string)null);
+                });
+
             modelBuilder.Entity("GestionEventos.Entidades.Asistencia", b =>
                 {
                     b.Property<int>("Id")
@@ -84,12 +99,15 @@ namespace GestionEventos.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Hora")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Nombre")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Ubicacion")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -124,6 +142,7 @@ namespace GestionEventos.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Codigo")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Descuento")
@@ -139,6 +158,21 @@ namespace GestionEventos.Migrations
                     b.ToTable("Promociones");
                 });
 
+            modelBuilder.Entity("ComentarioPromocion", b =>
+                {
+                    b.HasOne("GestionEventos.Entidades.Comentario", null)
+                        .WithMany()
+                        .HasForeignKey("ComentarioId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("GestionEventos.Entidades.Promocion", null)
+                        .WithMany()
+                        .HasForeignKey("PromocionId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("GestionEventos.Entidades.Asistencia", b =>
                 {
                     b.HasOne("GestionEventos.Entidades.Evento", "Evento")
@@ -152,11 +186,13 @@ namespace GestionEventos.Migrations
 
             modelBuilder.Entity("GestionEventos.Entidades.Comentario", b =>
                 {
-                    b.HasOne("GestionEventos.Entidades.Evento", null)
+                    b.HasOne("GestionEventos.Entidades.Evento", "Evento")
                         .WithMany("Comentarios")
                         .HasForeignKey("EventoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Evento");
                 });
 
             modelBuilder.Entity("GestionEventos.Entidades.Favorito", b =>

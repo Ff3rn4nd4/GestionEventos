@@ -1,4 +1,5 @@
-﻿using GestionEventos.ValidacionesPersonalizadas;
+﻿using GestionEventos.DTOs;
+using GestionEventos.ValidacionesPersonalizadas;
 using System.ComponentModel.DataAnnotations;
 
 namespace GestionEventos.Entidades
@@ -9,7 +10,6 @@ namespace GestionEventos.Entidades
         public string Fecha { get; set; }
         //Validaciones Personalizadas
         [Required]
-        [LimiteCapacidad(ErrorMessage = "La cantidad de asistentes excede la capacidad del evento")]
         //Relacion uno a muchos 
         public int EventoId { get; set; }
         public Evento Evento { get; set; }

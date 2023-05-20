@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "9ElPMHSoBbAI9KeIBZIDSm6PXcLwwJ2db+yfbK5n1z8=",
+  "Hash": "0HoFepau4JCo6eJHPejkBzA5XydQWjFXTX2xLfbcLrQ=",
   "Source": "GestionEventos",
   "BasePath": "_content/GestionEventos",
   "Mode": "Default",
@@ -15,5 +15,23 @@
       "Pattern": "**"
     }
   ],
-  "Assets": []
+  "Assets": [
+    {
+      "Identity": "C:\\Users\\DELL\\source\\repos\\GestionEventos\\GestionEventos\\wwwroot\\Michu.txt",
+      "SourceId": "GestionEventos",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\DELL\\source\\repos\\GestionEventos\\GestionEventos\\wwwroot\\",
+      "BasePath": "_content/GestionEventos",
+      "RelativePath": "Michu.txt",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Michu.txt"
+    }
+  ]
 }

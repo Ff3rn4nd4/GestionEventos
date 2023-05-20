@@ -1,4 +1,5 @@
-﻿using GestionEventos.Entidades;
+﻿using GestionEventos.DTOs;
+using GestionEventos.Entidades;
 using Microsoft.EntityFrameworkCore;
 
 namespace GestionEventos
@@ -20,8 +21,7 @@ namespace GestionEventos
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Comentario>().Ignore(c => c.Evento);
+
         }
-
-
     }
 }

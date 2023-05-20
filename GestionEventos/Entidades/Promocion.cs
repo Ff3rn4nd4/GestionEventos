@@ -14,5 +14,7 @@ namespace GestionEventos.Entidades
         public int EventoId { get; set; }
         public Evento Evento { get; set; }
 
+
+
     }
 }

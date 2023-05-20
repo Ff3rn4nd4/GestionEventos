@@ -7,13 +7,12 @@ namespace GestionEventos.ValidacionesPersonalizadas
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            var evento = validationContext.ObjectInstance as Evento;
-            if (evento == null)
+            if (validationContext.ObjectInstance is not Evento evento)
             {
                 return new ValidationResult(ErrorMessage);
             }
 
-            if (evento.Asistencias.Count > evento.Capacidad)
+            if (evento.Asistencias.Count >= evento.Capacidad)
             {
                 return new ValidationResult(ErrorMessage);
             }

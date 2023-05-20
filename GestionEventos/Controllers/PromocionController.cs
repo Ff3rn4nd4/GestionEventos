@@ -1,4 +1,6 @@
-﻿using GestionEventos.Entidades;
+﻿using AutoMapper;
+using GestionEventos.DTOs;
+using GestionEventos.Entidades;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -14,10 +16,12 @@ namespace GestionEventos.Controllers
     public class PromocionController:ControllerBase
     {
         private readonly ApplicationDbContext dbContext;
+        private readonly IMapper mapper;
 
-        public PromocionController(ApplicationDbContext context)
+        public PromocionController(ApplicationDbContext context, IMapper mapper)
         {
             dbContext = context;
+            this.mapper = mapper;
         }
         //CRUD
 
@@ -29,13 +33,28 @@ namespace GestionEventos.Controllers
 
         [HttpGet("{id:int}")]
         public async Task<ActionResult<Promocion>> GetById(int id)
+
         {
             return await dbContext.Promociones.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        [HttpPost]
+        /*[HttpPost]
         public async Task<ActionResult> Post(Promocion promocion)
         {
+            dbContext.Add(promocion);
+            await dbContext.SaveChangesAsync();
+            return Ok();
+        }*/
+
+        [HttpPost("Validar una Promocion")]
+        public async Task<ActionResult> Post(PromocionDto promociondto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var promocion = mapper.Map<Promocion>(promociondto);
+
             dbContext.Add(promocion);
             await dbContext.SaveChangesAsync();
             return Ok();
@@ -63,7 +82,7 @@ namespace GestionEventos.Controllers
 
         //Aplicando Patch y JsonPatch
         //Muy parecido a put, sirve para actualizar
-        [HttpPatch("{id:int}")]
+        /*[HttpPatch("{id:int}")]
         public async Task<ActionResult> Patch(int id, [FromBody] JsonPatchDocument<Promocion> patchDocument)
         {
             if (patchDocument == null)
@@ -81,7 +100,38 @@ namespace GestionEventos.Controllers
             await dbContext.SaveChangesAsync();
             return NoContent();
 
+        }*/
+
+        [HttpPatch("{id:int}")]
+        public async Task<ActionResult> Patch(int id, [FromBody] JsonPatchDocument<PromocionPatchDto> patchDocument)
+        {
+            if (patchDocument == null)
+            {
+                return BadRequest();
+            }
+
+            var promocion = await dbContext.Promociones.FindAsync(id);
+
+            if (promocion == null)
+            {
+                return NotFound();
+            }
+
+            var promocionPatchDto = mapper.Map<PromocionPatchDto>(promocion);
+            patchDocument.ApplyTo(promocionPatchDto, ModelState);
+
+            if (!TryValidateModel(promocionPatchDto))
+            {
+                return BadRequest(ModelState);
+            }
+
+            mapper.Map(promocionPatchDto, promocion);
+            await dbContext.SaveChangesAsync();
+
+            return NoContent();
         }
+
+
 
         [HttpDelete("{id:int}")]
         public async Task<ActionResult> Delete(int id)

@@ -1,4 +1,6 @@
-﻿using GestionEventos.Entidades;
+﻿using AutoMapper;
+using GestionEventos.DTOs;
+using GestionEventos.Entidades;
 using GestionEventos.Filtros;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Server.IIS.Core;
@@ -12,21 +14,25 @@ namespace GestionEventos.Controllers
     //ruta
     [Route("api/eventos")]
 
-    public class EventosController: ControllerBase
+    public class EventosController : ControllerBase
     {
         private readonly ApplicationDbContext dbContext;
         //Implementando Log de errores
         private readonly ILogger<EventosController> logger;
- 
-         
+        //Mappeo
+        private readonly IMapper mapper;
 
-        public EventosController(ApplicationDbContext context, ILogger<EventosController> logger) 
+
+
+        public EventosController(ApplicationDbContext context, ILogger<EventosController> logger, IMapper mapper)
         {
             dbContext = context;
             //Ahora se puede aplicar a cualquier metodo del CRUD
             this.logger = logger;
+            //Mappeo
+            this.mapper = mapper;
         }
-        
+
         /*metodo get con Datos Dummy
 
         [HttpGet]
@@ -52,39 +58,74 @@ namespace GestionEventos.Controllers
         }
 
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<Evento>> GetById(int id)
+        [Produces("application/json")]
+        //public async Task<ActionResult<Evento>> GetById(int id)
+        public async Task<ActionResult<EventoDto>> GetById(int id)
         {
-            var evento = await dbContext.Eventos
+            
+            //Para que con Evento aparezcan sus comentarios y promociones
+                /*var evento = await dbContext.Eventos
             .Include(e => e.Comentarios)
+                .ThenInclude(c => c.Promociones)
+            .FirstOrDefaultAsync(e => e.Id == id);*/
+
+            //Para que en evento aparezcan sus comentarios
+                var evento = await dbContext.Eventos
+                .Include(e => e.Comentarios)
+                .Include(e => e.Asistencias)
             .FirstOrDefaultAsync(e => e.Id == id);
 
-            return await dbContext.Eventos.FirstOrDefaultAsync(x => x.Id == id);
+            if (evento == null)
+            {
+                return NotFound();
+            }
+
+            var eventoDto = mapper.Map<EventoDto>(evento);
+            eventoDto.ComentariosDto = mapper.Map<List<ComentarioDto>>(evento.Comentarios);
+            eventoDto.AsistenciasDto = mapper.Map<List<AsistenciaDto>>(evento.Asistencias);
+            return eventoDto;
         }
 
-        [HttpPost]
-        public async Task<ActionResult> Post(Evento evento)
+        [HttpPost("Crear un nuevo evento")]
+        [Produces("application/json")]
+        //public async Task<ActionResult> Post(Evento evento)
+        public async Task<ActionResult> CreateEvento(CrearEventoDto creareventoDto)
         {
-            try
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var evento = mapper.Map<Evento>(creareventoDto);
+
+            dbContext.Eventos.Add(evento);
+            await dbContext.SaveChangesAsync();
+
+            var eventoDto = mapper.Map<EventoDto>(evento);
+
+            return CreatedAtAction(nameof(GetById), new { id = eventoDto.Id }, eventoDto);
+
+            /*try
             {
                 dbContext.Add(evento);
                 await dbContext.SaveChangesAsync();
                 return Ok();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                logger.LogError(ex,"Hubo un error al crear un nuevo evento");
+                logger.LogError(ex, "Hubo un error al crear un nuevo evento");
                 //Aunque tambien podemos enseniarselos al usuario
                 return BadRequest("Ocurrio un error inesperado, vuelve a intentarlo xc");
 
-            }
-            
+            }*/
+
         }
 
         [HttpPut("{id:int}")]
         public async Task<ActionResult> Put(Evento evento, int id)
         {
-            var exist = await dbContext.Eventos.AnyAsync( x => x.Id == id);
-            
+            var exist = await dbContext.Eventos.AnyAsync(x => x.Id == id);
+
             if (!exist)
             {
                 return NotFound("Este evento no existe");
@@ -120,6 +161,7 @@ namespace GestionEventos.Controllers
             return Ok();
         }
 
-        
+
     }
 }
+

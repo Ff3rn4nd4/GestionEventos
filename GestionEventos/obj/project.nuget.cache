@@ -1,13 +1,16 @@
 {
   "version": 2,
-  "dgSpecHash": "iQNnWuy6nzQE+v6FjDUhgP8ahyl/M+jeYgLXxkax5yIO8BEhsxMs1mgZ68xFS7KaSgFBp5AajcFIbu8zAx8f1A==",
+  "dgSpecHash": "B6GrnEDIkRGPKiCD3iLVSf7fLoK3hYAdlG1x8AKSVlR8JW6Ah/014ArXLFTPvg9Bi8KlQDrPqL6FhXJiXdSxsQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\DELL\\source\\repos\\GestionEventos\\GestionEventos\\GestionEventos.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\DELL\\.nuget\\packages\\apache.thrift\\1.0.2\\apache.thrift.1.0.2.nupkg.sha512",
+    "C:\\Users\\DELL\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
+    "C:\\Users\\DELL\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",
     "C:\\Users\\DELL\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\DELL\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",
     "C:\\Users\\DELL\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
+    "C:\\Users\\DELL\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\6.0.0\\microsoft.aspnetcore.authentication.jwtbearer.6.0.0.nupkg.sha512",
     "C:\\Users\\DELL\\.nuget\\packages\\microsoft.aspnetcore.jsonpatch\\8.0.0-preview.4.23260.4\\microsoft.aspnetcore.jsonpatch.8.0.0-preview.4.23260.4.nupkg.sha512",
     "C:\\Users\\DELL\\.nuget\\packages\\microsoft.aspnetcore.mvc.newtonsoftjson\\6.0.0\\microsoft.aspnetcore.mvc.newtonsoftjson.6.0.0.nupkg.sha512",
     "C:\\Users\\DELL\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\1.1.1\\microsoft.bcl.asyncinterfaces.1.1.1.nupkg.sha512",

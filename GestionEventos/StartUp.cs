@@ -1,5 +1,7 @@
 ﻿using GestionEventos.Filtros;
 using GestionEventos.Services;
+using GestionEventos.Utilidades;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
@@ -17,6 +19,8 @@ namespace GestionEventos
 
         public void ConfigureServices(IServiceCollection services)
         {
+            //Para el automapper
+            services.AddAutoMapper(typeof(MappingP));
             //Para poder escribir en el archivo que creamos
             services.AddSingleton<IHostedService, EscribirEnArchivo>();
             //Al ponerlo en nuestro startUp lo hacemos global
@@ -27,7 +31,11 @@ namespace GestionEventos
             //Para poder utilizar el patch y jsonpatch
             services.AddControllers().AddNewtonsoftJson();
             //Para que no se ciclen las entidades
-            services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+            //services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+            services.AddControllers().AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            });
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("defaultConnection")));

@@ -1,7 +1,10 @@
-﻿using GestionEventos.Entidades;
+﻿using AutoMapper;
+using GestionEventos.DTOs;
+using GestionEventos.Entidades;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using GestionEventos.ValidacionesPersonalizadas;
+using System.IO.MemoryMappedFiles;
+using zipkin4net.Annotation;
 
 namespace GestionEventos.Controllers
 {
@@ -14,10 +17,14 @@ namespace GestionEventos.Controllers
     public class AsistenciaController: ControllerBase
     {
         private readonly ApplicationDbContext dbContext;
+        //Mappeo
+        private readonly IMapper mapper;
 
-        public AsistenciaController(ApplicationDbContext context)
+        public AsistenciaController(ApplicationDbContext context, IMapper mapper)
         {
             dbContext = context;
+            this.mapper = mapper;
+            
         }
 
         //CRUD
@@ -41,18 +48,27 @@ namespace GestionEventos.Controllers
             return Ok();
         }*/
 
-        [HttpPost]
-        //Validaciones desde el controlador
-        [LimiteCapacidad]
-        public async Task<ActionResult> Post(Asistencia asistencia)
+        [HttpPost("Marcar asistencia")]
+        public async Task<ActionResult> Post(AsistenciaDto asistenciadto)
         {
-            var evento = await dbContext.Eventos.FindAsync(asistencia.EventoId);
-            if (evento.Asistencias.Count >= evento.Capacidad)
+            if (!ModelState.IsValid)
             {
-                return BadRequest("La cantidad de asistentes excede la capacidad del evento");
+                return BadRequest(ModelState);
             }
+            var asistencia = mapper.Map<Asistencia>(asistenciadto);
+
             dbContext.Add(asistencia);
             await dbContext.SaveChangesAsync();
+
+            /*var evento = await dbContext.Eventos.FirstOrDefaultAsync(e => e.Id == asistencia.EventoId);
+            var evento = await dbContext.Eventos.FirstOrDefaultAsync(e => e.Id == asistenciadto.EventoId);
+            if (evento != null)
+
+                if (evento != null)
+                {
+                    evento.ConteoCapacidad = evento.Asistencias.Count;
+                    await dbContext.SaveChangesAsync();
+                }*/
             return Ok();
         }
 
