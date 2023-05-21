@@ -95,3 +95,4 @@ C:\Users\DELL\source\repos\GestionEventos\GestionEventos\bin\Debug\net6.0\Gestio
 C:\Users\DELL\source\repos\GestionEventos\GestionEventos\bin\Debug\net6.0\AutoMapper.dll
 C:\Users\DELL\source\repos\GestionEventos\GestionEventos\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 C:\Users\DELL\source\repos\GestionEventos\GestionEventos\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\DELL\source\repos\GestionEventos\GestionEventos\bin\Debug\net6.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll

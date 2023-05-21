@@ -59,18 +59,36 @@ namespace GestionEventos.Controllers
 
             dbContext.Add(asistencia);
             await dbContext.SaveChangesAsync();
-
-            /*var evento = await dbContext.Eventos.FirstOrDefaultAsync(e => e.Id == asistencia.EventoId);
-            var evento = await dbContext.Eventos.FirstOrDefaultAsync(e => e.Id == asistenciadto.EventoId);
-            if (evento != null)
-
-                if (evento != null)
-                {
-                    evento.ConteoCapacidad = evento.Asistencias.Count;
-                    await dbContext.SaveChangesAsync();
-                }*/
             return Ok();
         }
+
+        /*[HttpPost ("Marcar asistencia")]
+        public async Task<ActionResult> Post(AsistenciaDto asistenciadto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var evento = await dbContext.Eventos.FindAsync(asistenciadto.EventoId);
+            if (evento == null)
+            {
+                return NotFound("El evento no existe");
+            }
+
+            if (evento.Asistencias.Count >= evento.Capacidad)
+            {
+                return BadRequest("Lo siento, se excede la capacidad del evento");
+            }
+
+            var asistencia = mapper.Map<Asistencia>(asistenciadto);
+
+            dbContext.Add(asistencia);
+            await dbContext.SaveChangesAsync();
+
+            return Ok();
+
+        }*/
 
         [HttpPut("{id:int}")]
         public async Task<ActionResult> Put(Asistencia asistencia, int id)
