@@ -2,12 +2,12 @@
 
 namespace GestionEventos.DTOs
 {
-    public class UsuarioDto
+    public class CredencialesUsuario
     {
         [Required]
         [EmailAddress]
-        public string Correo { get; set; }
+        public string Email { get; set; }
         [Required]
-        public string Contrasenia { get; set; }
+        public string Password { get; set; }
     }
 }

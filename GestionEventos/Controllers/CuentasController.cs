@@ -10,13 +10,11 @@ using System.Text;
 
 namespace GestionEventos.Controllers
 {
-    [Authorize]
+    [ApiController]
     [Route("Cuentas")]
-    public class CuentasController: ControllerBase
+    public class CuentasController : ControllerBase
     {
-        // Es el usuario que vamos a registrar
         private readonly UserManager<IdentityUser> userManager;
-        //Para obterner la key.
         private readonly IConfiguration configuration;
         private readonly SignInManager<IdentityUser> signInManager;
 
@@ -28,12 +26,11 @@ namespace GestionEventos.Controllers
             this.signInManager = signInManager;
         }
 
-
-        [HttpPost("Registrarse")]
-        public async Task<ActionResult<RespuestaAutenticacionDto>> Registrar(UsuarioDto credenciales)
+        [HttpPost("registrar")]
+        public async Task<ActionResult<RespuestaAutenticacionDto>> Registrar(CredencialesUsuario credenciales)
         {
-            var user = new IdentityUser { UserName = credenciales.Correo, Email = credenciales.Correo };
-            var result = await userManager.CreateAsync(user, credenciales.Contrasenia);
+            var user = new IdentityUser { UserName = credenciales.Email, Email = credenciales.Email };
+            var result = await userManager.CreateAsync(user, credenciales.Password);
 
             if (result.Succeeded)
             {
@@ -46,11 +43,11 @@ namespace GestionEventos.Controllers
             }
         }
 
-        [HttpPost("Login")]
-        public async Task<ActionResult<RespuestaAutenticacionDto>> Login(UsuarioDto credencialesUsuario)
+        [HttpPost("login")]
+        public async Task<ActionResult<RespuestaAutenticacionDto>> Login(CredencialesUsuario credencialesUsuario)
         {
-            var result = await signInManager.PasswordSignInAsync(credencialesUsuario.Correo,
-                credencialesUsuario.Contrasenia, isPersistent: false, lockoutOnFailure: false);
+            var result = await signInManager.PasswordSignInAsync(credencialesUsuario.Email,
+                credencialesUsuario.Password, isPersistent: false, lockoutOnFailure: false);
 
             if (result.Succeeded)
             {
@@ -67,21 +64,19 @@ namespace GestionEventos.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult<RespuestaAutenticacionDto>> Renovar()
         {
-            //Para renovarlo no tiene que haber vencido el token actual.
             var emailClaim = HttpContext.User.Claims.Where(claim => claim.Type == "email").FirstOrDefault();
             var email = emailClaim.Value;
 
-            var credenciales = new UsuarioDto()
+            var credenciales = new CredencialesUsuario()
             {
-                Correo = email
+                Email = email
             };
 
             return await ConstruirToken(credenciales);
 
         }
 
-        //Tokkens
-        private async Task<RespuestaAutenticacionDto> ConstruirToken(UsuarioDto credencialesUsuario)
+        private async Task<RespuestaAutenticacionDto> ConstruirToken(CredencialesUsuario credencialesUsuario)
         {
             //Informacion del usuario en la cual podemos confiar
             //En los claim se pueden declarar cualquier variable, sin embargo, no debemos de declarar informacion
@@ -89,13 +84,11 @@ namespace GestionEventos.Controllers
 
             var claims = new List<Claim>
             {
-                //Podemos agregar los claims que nosotros queramos y no nos va a marcar error.
-                //Esta información viene encriptada.
-                new Claim("email", credencialesUsuario.Correo),
+                new Claim("email", credencialesUsuario.Email),
                 new Claim("claimprueba", "Este es un claim de prueba")
             };
 
-            var usuario = await userManager.FindByEmailAsync(credencialesUsuario.Correo);
+            var usuario = await userManager.FindByEmailAsync(credencialesUsuario.Email);
             var claimsDB = await userManager.GetClaimsAsync(usuario);
 
             claims.AddRange(claimsDB);
@@ -103,11 +96,8 @@ namespace GestionEventos.Controllers
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["keyjwt"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-            //Se agregan cada 30 minutos, si expira se desloguea.
-            //Por eso hay un método para renovar el token.
             var expiration = DateTime.UtcNow.AddMinutes(30);
 
-            //se contruye el token que el usuario usara para que funcione el sistema.
             var securityToken = new JwtSecurityToken(issuer: null, audience: null, claims: claims,
                 expires: expiration, signingCredentials: creds);
 
@@ -118,27 +108,24 @@ namespace GestionEventos.Controllers
             };
         }
 
-        [HttpPost("HacerOrganizador")]
-        public async Task<ActionResult> HacerOrganizador(AscenderOrganizadorDto ascenderOrganizadordto)
+        [HttpPost("HacerAdmin")]
+        public async Task<ActionResult> HacerAdmin(EditarAdminDto editarAdminDTO)
         {
-            var usuario = await userManager.FindByEmailAsync(ascenderOrganizadordto.Correo);
+            var usuario = await userManager.FindByEmailAsync(editarAdminDTO.Email);
 
-            //Se agrega un claim al usuario haciendolo organizador, el valor no importa
-            await userManager.AddClaimAsync(usuario, new Claim("Organizador", "1"));
+            await userManager.AddClaimAsync(usuario, new Claim("EsAdmin", "1"));
 
             return NoContent();
         }
 
-        [HttpPost("RemoverOrganizador")]
-        public async Task<ActionResult> RemoverOrganizador(AscenderOrganizadorDto ascenderOrganizadordto)
+        [HttpPost("RemoverAdmin")]
+        public async Task<ActionResult> RemoverAdmin(EditarAdminDto editarAdminDTO)
         {
-            var usuario = await userManager.FindByEmailAsync(ascenderOrganizadordto.Correo);
+            var usuario = await userManager.FindByEmailAsync(editarAdminDTO.Email);
 
-            //Se remuve el claim de "EsOrganizador", el valor no importa
-            await userManager.RemoveClaimAsync(usuario, new Claim("Organizador", "1"));
+            await userManager.RemoveClaimAsync(usuario, new Claim("EsAdmin", "1"));
 
             return NoContent();
         }
-
     }
 }

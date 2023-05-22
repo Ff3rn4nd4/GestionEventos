@@ -2,10 +2,10 @@
 
 namespace GestionEventos.DTOs
 {
-    public class AscenderOrganizadorDto
+    public class EditarAdminDto
     {
         [Required]
         [EmailAddress]
-        public string Correo { get; set; }
+        public string Email { get; set; }
     }
 }
