@@ -61,7 +61,7 @@ namespace GestionEventos.Controllers
             return await dbContext.Eventos.ToListAsync();
         }
 
-        [HttpGet("{id:int}")]
+        [HttpGet("{id:int} Buscar por Id")]
         [Produces("application/json")]
         //public async Task<ActionResult<Evento>> GetById(int id)
         public async Task<ActionResult<EventoDto>> GetById(int id)
@@ -88,6 +88,60 @@ namespace GestionEventos.Controllers
             eventoDto.ComentariosDto = mapper.Map<List<ComentarioDto>>(evento.Comentarios);
             eventoDto.AsistenciasDto = mapper.Map<List<AsistenciaDto>>(evento.Asistencias);
             return eventoDto;
+        }
+
+        [HttpGet("Buscar por Nombre")]
+        [Produces("application/json")]
+        public async Task<ActionResult<List<EventoDto>>> GetByNombre(string nombre)
+        {
+            var eventos = await dbContext.Eventos
+                .Where(e => e.Nombre.Contains(nombre))
+                .ToListAsync();
+
+            if (eventos == null || eventos.Count == 0)
+            {
+                return NotFound();
+            }
+
+            var eventosDto = mapper.Map<List<EventoDto>>(eventos);
+
+            return eventosDto;
+        }
+
+        [HttpGet("Buscar por Fecha")]
+        [Produces("application/json")]
+        public async Task<ActionResult<List<EventoDto>>> GetByFecha(string fecha)
+        {
+            var eventos = await dbContext.Eventos
+                .Where(e => e.Fecha.Contains(fecha))
+                .ToListAsync();
+
+            if (eventos == null || eventos.Count == 0)
+            {
+                return NotFound();
+            }
+
+            var eventosDto = mapper.Map<List<EventoDto>>(eventos);
+
+            return eventosDto;
+        }
+
+        [HttpGet("Buscar por Ubicacion")]
+        [Produces("application/json")]
+        public async Task<ActionResult<List<EventoDto>>> GetByUbicacion(string ubicacion)
+        {
+            var eventos = await dbContext.Eventos
+                .Where(e => e.Ubicacion.Contains(ubicacion))
+                .ToListAsync();
+
+            if (eventos == null || eventos.Count == 0)
+            {
+                return NotFound();
+            }
+
+            var eventosDto = mapper.Map<List<EventoDto>>(eventos);
+
+            return eventosDto;
         }
 
         [HttpPost("Crear un nuevo evento")]

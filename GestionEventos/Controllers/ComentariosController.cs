@@ -11,7 +11,7 @@ namespace GestionEventos.Controllers
     //validaciones automaticas/por defecto
     [ApiController]
     //ruta
-    [Route("api/comentarios")]
+    [Route("api/ComentariosYPreguntas")]
     //Para que todos los vean 
     [AllowAnonymous]
 

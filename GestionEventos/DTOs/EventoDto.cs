@@ -20,6 +20,8 @@ namespace GestionEventos.DTOs
         //Validaciones personalizadas
         [Required]
         public int Capacidad { get; set; }
+        //Variable acumulativa
+        public int ConteoAsistencias { get; set; }
         public List<ComentarioDto> ComentariosDto { get; set; }
         public List<AsistenciaDto> AsistenciasDto { get; set; }
         public List<PromocionDto> PromocionesDto { get; set; }

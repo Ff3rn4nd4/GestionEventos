@@ -50,7 +50,7 @@ namespace GestionEventos.Controllers
             return Ok();
         }*/
 
-        [HttpPost("Marcar asistencia")]
+        /*[HttpPost("Marcar asistencia")]
         public async Task<ActionResult> Post(AsistenciaDto asistenciadto)
         {
             if (!ModelState.IsValid)
@@ -62,9 +62,9 @@ namespace GestionEventos.Controllers
             dbContext.Add(asistencia);
             await dbContext.SaveChangesAsync();
             return Ok();
-        }
+        }*/
 
-        /*[HttpPost ("Marcar asistencia")]
+        [HttpPost ("Marcar asistencia")]
         public async Task<ActionResult> Post(AsistenciaDto asistenciadto)
         {
             if (!ModelState.IsValid)
@@ -72,13 +72,23 @@ namespace GestionEventos.Controllers
                 return BadRequest(ModelState);
             }
 
-            var evento = await dbContext.Eventos.FindAsync(asistenciadto.EventoId);
-            if (evento == null)
+                var eventoDto = await dbContext.Eventos
+            .Where(e => e.Id == asistenciadto.EventoId)
+            .Select(e => new EventoDto
+            {
+                Id = e.Id,
+                Nombre = e.Nombre,
+                Capacidad = e.Capacidad,
+                ConteoAsistencias = e.Asistencias.Count
+            })
+            .FirstOrDefaultAsync();
+
+            if (eventoDto == null)
             {
                 return NotFound("El evento no existe");
             }
 
-            if (evento.Asistencias.Count >= evento.Capacidad)
+            if (eventoDto.ConteoAsistencias >= eventoDto.Capacidad)
             {
                 return BadRequest("Lo siento, se excede la capacidad del evento");
             }
@@ -90,7 +100,7 @@ namespace GestionEventos.Controllers
 
             return Ok();
 
-        }*/
+        }
 
         [HttpPut("{id:int}")]
         public async Task<ActionResult> Put(Asistencia asistencia, int id)
