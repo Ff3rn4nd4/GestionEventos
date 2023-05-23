@@ -115,6 +115,7 @@ namespace GestionEventos.Controllers
 
             await userManager.AddClaimAsync(usuario, new Claim("EsAdmin", "1"));
 
+            //Error 204
             return NoContent();
         }
 

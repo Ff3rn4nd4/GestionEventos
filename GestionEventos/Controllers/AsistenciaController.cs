@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using GestionEventos.DTOs;
 using GestionEventos.Entidades;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.IO.MemoryMappedFiles;
@@ -10,9 +11,10 @@ namespace GestionEventos.Controllers
 {
     //validaciones automaticas
     [ApiController]
-
     //ruta
     [Route("api/Asistencia")]
+    //Para que todos los vean 
+    [AllowAnonymous]
 
     public class AsistenciaController: ControllerBase
     {

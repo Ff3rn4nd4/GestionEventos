@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using GestionEventos.DTOs;
 using GestionEventos.Entidades;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,9 +11,10 @@ namespace GestionEventos.Controllers
 {
     //validaciones automaticas/por defecto
     [ApiController]
-
     //ruta
     [Route("api/promociones")]
+    //Solo organizadores 
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "EsAdmin")]
 
     public class PromocionController:ControllerBase
     {

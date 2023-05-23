@@ -29,7 +29,14 @@ namespace GestionEventos
 
         public void ConfigureServices(IServiceCollection services)
         {
-
+            //CORS-Microservicios
+            services.AddCors(opciones =>
+            {
+                opciones.AddDefaultPolicy(builder =>
+                {
+                    builder.WithOrigins("https://apirequest.io").AllowAnyMethod().AllowAnyHeader();
+                });
+            });
             //Jwt
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opciones =>
             opciones.TokenValidationParameters = new TokenValidationParameters
@@ -76,8 +83,7 @@ namespace GestionEventos
 
             services.AddAuthorization(opciones =>
             {
-                opciones.AddPolicy("EsOrganizador", politica => politica.RequireClaim("esOrganizador"));
-                opciones.AddPolicy("EsCliente", politica => politica.RequireClaim("esCliente"));
+                opciones.AddPolicy("EsAdmin", politica => politica.RequireClaim("EsAdmin"));
             });
             //Para el automapper
             services.AddAutoMapper(typeof(MappingP));
@@ -105,6 +111,7 @@ namespace GestionEventos
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApiEventos", Version = "v1"});
             });*/
+
         }
           
         public void Configure(IApplicationBuilder app,IWebHostEnvironment env, ILogger<StartUp> logger)
@@ -139,6 +146,8 @@ namespace GestionEventos
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseCors();
 
             app.UseAuthorization();
 

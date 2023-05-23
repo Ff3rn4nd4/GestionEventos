@@ -2,6 +2,8 @@
 using GestionEventos.DTOs;
 using GestionEventos.Entidades;
 using GestionEventos.Filtros;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Server.IIS.Core;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +15,8 @@ namespace GestionEventos.Controllers
 
     //ruta
     [Route("api/eventos")]
+    //Para que todos los vean 
+    [AllowAnonymous]
 
     public class EventosController : ControllerBase
     {
@@ -121,7 +125,8 @@ namespace GestionEventos.Controllers
 
         }
 
-        [HttpPut("{id:int}")]
+        [HttpPut("{id:int} Actualizar eventos")]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "EsAdmin")]
         public async Task<ActionResult> Put(Evento evento, int id)
         {
             var exist = await dbContext.Eventos.AnyAsync(x => x.Id == id);

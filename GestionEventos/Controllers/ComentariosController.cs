@@ -2,6 +2,7 @@
 using GestionEventos.DTOs;
 using GestionEventos.Entidades;
 using GestionEventos.Migrations;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,9 +10,10 @@ namespace GestionEventos.Controllers
 {
     //validaciones automaticas/por defecto
     [ApiController]
-
     //ruta
     [Route("api/comentarios")]
+    //Para que todos los vean 
+    [AllowAnonymous]
 
     public class ComentariosController: ControllerBase
     {

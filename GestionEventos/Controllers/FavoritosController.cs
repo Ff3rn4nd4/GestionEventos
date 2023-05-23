@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using GestionEventos.DTOs;
 using GestionEventos.Entidades;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,9 +9,10 @@ namespace GestionEventos.Controllers
 {
     //validaciones automaticas/por defecto
     [ApiController]
-
     //ruta
     [Route("api/favoritos")]
+    //Para que todos los vean 
+    [AllowAnonymous]
     public class FavoritosController: ControllerBase
     {
         private readonly ApplicationDbContext dbContext;
