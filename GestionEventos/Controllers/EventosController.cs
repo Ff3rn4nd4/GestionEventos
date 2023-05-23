@@ -126,6 +126,34 @@ namespace GestionEventos.Controllers
             return eventosDto;
         }
 
+        [HttpGet("populares")]
+        public async Task<ActionResult<List<Evento>>> GetPopulares()
+        {
+            //Los que tienen mas asistencias
+            var eventosPopulares = await dbContext.Eventos.OrderByDescending(e => e.Asistencias.Count).Take(5).ToListAsync();
+
+            return eventosPopulares;
+        }
+
+        /*[HttpGet("Buscar por Fecha")]
+        [Produces("application/json")]
+        public async Task<ActionResult<List<EventoDto>>> GetByFecha(DateTime fecha)
+        {
+            var eventos = await dbContext.Eventos
+                .Where(e => e.Fecha.Date == fecha.Date)
+                .ToListAsync();
+
+            if (eventos == null || eventos.Count == 0)
+            {
+                return NotFound();
+            }
+
+            var eventosDto = mapper.Map<List<EventoDto>>(eventos);
+
+            return eventosDto;
+        }*/
+
+
         [HttpGet("Buscar por Ubicacion")]
         [Produces("application/json")]
         public async Task<ActionResult<List<EventoDto>>> GetByUbicacion(string ubicacion)

@@ -17,6 +17,7 @@ namespace GestionEventos.Entidades
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
         public string Fecha { get; set; }
+        //public DateTime Fecha { get; set; }
         //Validaciones por modelo
         [Required]
         public string Hora { get; set; }

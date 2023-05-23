@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using System.Net.Http.Headers;
+using System.Text;
 
 namespace GestionEventos.Controllers
 {
@@ -16,7 +19,7 @@ namespace GestionEventos.Controllers
     //Solo organizadores 
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "EsAdmin")]
 
-    public class PromocionController:ControllerBase
+    public class PromocionController : ControllerBase
     {
         private readonly ApplicationDbContext dbContext;
         private readonly IMapper mapper;
@@ -50,6 +53,7 @@ namespace GestionEventos.Controllers
         }*/
 
         [HttpPost("Validar una Promocion")]
+        [Authorize(Roles = "EsAdmin")]
         public async Task<ActionResult> Post(PromocionDto promociondto)
         {
             if (!ModelState.IsValid)

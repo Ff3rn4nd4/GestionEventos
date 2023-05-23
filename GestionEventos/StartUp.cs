@@ -38,6 +38,7 @@ namespace GestionEventos
                 });
             });
             //Jwt
+            services.AddResponseCaching();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opciones =>
             opciones.TokenValidationParameters = new TokenValidationParameters
             {

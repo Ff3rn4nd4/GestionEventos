@@ -2,9 +2,11 @@
 using GestionEventos.DTOs;
 using GestionEventos.Entidades;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.IO.MemoryMappedFiles;
+using System.Security.Claims;
 using zipkin4net.Annotation;
 
 namespace GestionEventos.Controllers
@@ -21,12 +23,13 @@ namespace GestionEventos.Controllers
         private readonly ApplicationDbContext dbContext;
         //Mappeo
         private readonly IMapper mapper;
+        //
+
 
         public AsistenciaController(ApplicationDbContext context, IMapper mapper)
         {
             dbContext = context;
             this.mapper = mapper;
-            
         }
 
         //CRUD
